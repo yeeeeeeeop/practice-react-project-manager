@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import Sidebar from './components/Sidebar';
 import NoProjectSelected from './components/NoProjectSelected';
-import Project from './components/Project';
 import NewProject from './components/NewProject';
 
 import { ProjectItem } from './interfaces/types';
@@ -24,13 +23,19 @@ function App() {
     projects: [],
   });
 
-  console.log(projectsState);
-
   const handleStartAddProject = () => {
     setProjectsState((prevState) => ({
       ...prevState,
       selectedProjectId: null,
       createMode: true,
+    }));
+  };
+
+  const handleCancelAddProject = () => {
+    setProjectsState((prevState) => ({
+      ...prevState,
+      selectedProjectId: null,
+      createMode: false,
     }));
   };
 
@@ -46,7 +51,8 @@ function App() {
       };
 
       return {
-        ...prevState,
+        createMode: false,
+        selectedProjectId: null,
         projects: [...prevState.projects, newProject],
       };
     });
@@ -63,8 +69,16 @@ function App() {
 
   return (
     <main className="h-screen my-8 flex gap-8">
-      <Sidebar onStartAddProject={handleStartAddProject} />
-      {renderMode === NEW && <NewProject onAdd={handleAddProject} />}
+      <Sidebar
+        onStartAddProject={handleStartAddProject}
+        projects={projectsState.projects}
+      />
+      {renderMode === NEW && (
+        <NewProject
+          onAdd={handleAddProject}
+          onCancel={handleCancelAddProject}
+        />
+      )}
       {renderMode === NOT_SELECTED && (
         <NoProjectSelected onStartAddProject={handleStartAddProject} />
       )}
