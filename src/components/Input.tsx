@@ -1,6 +1,6 @@
 import React, { ForwardRefRenderFunction, forwardRef } from 'react';
 
-interface InputComponent {
+interface Props {
   label: string;
   textarea?: boolean;
   [x: string]: any;
@@ -8,7 +8,7 @@ interface InputComponent {
 
 type InputElement = HTMLInputElement | HTMLTextAreaElement;
 
-const Input = forwardRef<InputElement, InputComponent>(
+const Input = forwardRef<InputElement, Props>(
   ({ label, textarea = false, ...props }, ref) => {
     const classes =
       'w-full p-1 border-b-2 rounded-sm border-stone-300 bg-stone-200 text-stone-600 focus:outline-none focus:border-stone-600';

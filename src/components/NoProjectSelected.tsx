@@ -2,13 +2,11 @@ import Button from './Button';
 
 import noProjectImg from '../assets/no-projects.png';
 
-interface NoProjectSelectedComponent {
+interface Props {
   onStartAddProject: () => void;
 }
 
-const NoProjectSelected: React.FC<NoProjectSelectedComponent> = ({
-  onStartAddProject,
-}) => {
+const NoProjectSelected: React.FC<Props> = ({ onStartAddProject }) => {
   return (
     <div className="mt-24 text-center w-2/3">
       <img
