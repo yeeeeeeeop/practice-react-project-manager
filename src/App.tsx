@@ -5,12 +5,14 @@ import NoProjectSelected from './components/NoProjectSelected';
 import NewProject from './components/NewProject';
 import SelectedProject from './components/SelectedProject';
 
-import { ProjectItem } from './interfaces/types';
+import { ProjectItem, TaskItem } from './types/interfaces';
+import { addTaskFunc, deleteTaskFunc } from './types/functions';
 
 interface ProjectsState {
   createMode: boolean;
   selectedProjectId: string | null;
   projects: ProjectItem[];
+  tasks: TaskItem[];
 }
 
 const NEW = 'NEW';
@@ -22,7 +24,33 @@ function App() {
     createMode: false,
     selectedProjectId: null,
     projects: [],
+    tasks: [],
   });
+
+  const handleAddTask: addTaskFunc = (text: string) => {
+    setProjectsState((prevState) => {
+      const taskId = Math.random().toString();
+      const newTask: TaskItem = {
+        text: text,
+        projectId: prevState.selectedProjectId!,
+        id: taskId,
+      };
+
+      return {
+        ...prevState,
+        tasks: [newTask, ...prevState.tasks],
+      };
+    });
+  };
+
+  const handleDeleteTask: deleteTaskFunc = (id: string) => {
+    setProjectsState((prevState) => {
+      return {
+        ...prevState,
+        tasks: prevState.tasks.filter((task) => task.id !== id),
+      };
+    });
+  };
 
   const handleSelectProject = (id: string) => {
     setProjectsState((prevState) => ({
@@ -68,6 +96,7 @@ function App() {
       };
 
       return {
+        ...prevState,
         createMode: false,
         selectedProjectId: null,
         projects: [...prevState.projects, newProject],
@@ -108,7 +137,10 @@ function App() {
       {renderMode === SELECTED && (
         <SelectedProject
           project={selectedProject}
+          tasks={projectsState.tasks}
           onDelete={handleDeleteProject}
+          onAddTask={handleAddTask}
+          onDeleteTask={handleDeleteTask}
         />
       )}
     </main>

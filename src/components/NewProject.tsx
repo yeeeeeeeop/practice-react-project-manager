@@ -5,7 +5,7 @@ import Input from './Input';
 import Modal from './Modal';
 
 // types
-import { ProjectItem } from '../interfaces/types';
+import { ProjectItem } from '../types/interfaces';
 
 interface Props {
   onAdd: (projectData: {

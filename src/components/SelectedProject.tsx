@@ -1,13 +1,25 @@
 import React from 'react';
 
-import { ProjectItem } from '../interfaces/types';
+import Tasks from './Tasks';
+
+import { ProjectItem, TaskItem } from '../types/interfaces';
+import { addTaskFunc, deleteTaskFunc } from '../types/functions';
 
 interface Props {
   project: ProjectItem | undefined;
+  tasks: TaskItem[];
   onDelete: (id: string) => void;
+  onAddTask: addTaskFunc;
+  onDeleteTask: deleteTaskFunc;
 }
 
-const SelectedProject: React.FC<Props> = ({ project, onDelete }) => {
+const SelectedProject: React.FC<Props> = ({
+  project,
+  tasks,
+  onDelete,
+  onAddTask,
+  onDeleteTask,
+}) => {
   const { id, title, dueDate, description } = project!;
   const formattedDate = new Date(dueDate).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -17,7 +29,7 @@ const SelectedProject: React.FC<Props> = ({ project, onDelete }) => {
 
   return (
     <div className="w-[35rem] mt-16">
-      <header className="pb-4 mb-4 boarder-b-2 border-stone-300">
+      <header className="pb-4 mb-4 border-b-2 border-stone-300">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold text-stone-600 mb-2">{title}</h1>
           <button
@@ -30,7 +42,7 @@ const SelectedProject: React.FC<Props> = ({ project, onDelete }) => {
         <p className="mb-4 text-stone-400">{formattedDate}</p>
         <p className="text-stone-600 whitespace-pre-wrap">{description}</p>
       </header>
-      TASKS
+      <Tasks tasks={tasks} onAdd={onAddTask} onDelete={onDeleteTask} />
     </div>
   );
 };

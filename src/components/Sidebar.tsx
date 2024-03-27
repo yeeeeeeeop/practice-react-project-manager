@@ -2,7 +2,7 @@ import React from 'react';
 
 import Button from './Button';
 
-import { ProjectItem } from '../interfaces/types';
+import { ProjectItem } from '../types/interfaces';
 
 interface Props {
   onStartAddProject: () => void;
